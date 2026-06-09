@@ -22,17 +22,14 @@ class SuratMasukController extends Controller
                 ->orWhere('asal_pengirim', 'like', "%" . $search . "%");
             });
         }
-
         // Filter berdasarkan Jenis Surat
         if ($request->id_jenis) {
             $query->where('id_jenis', $request->id_jenis);
         }
-        
         // Filter berdasarkan Rentang Tanggal
         if ($request->tgl_mulai && $request->tgl_selesai) {
             $query->whereBetween('tgl_surat', [$request->tgl_mulai, $request->tgl_selesai]);
         }
-
         // Ambil data diurutkan berdasarkan tanggal terbaru paling atas
         $data = $query->orderBy('tgl_surat', 'desc')->paginate(10)->withQueryString();
 
